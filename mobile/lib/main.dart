@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/service/service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
     });
+    var api = ApiService();
+    api.getUsers();
   }
 
   @override
