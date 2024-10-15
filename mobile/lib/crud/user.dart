@@ -1,21 +1,23 @@
-class conta {
-  int? id;
-  String nome;
-  double balanco;
+class Conta {
+  final int? id;
+  final String nome;
+  final double balanco;
 
-  conta({this.id, required this.nome, required this.balanco});
+  Conta({this.id, required this.nome, required this.balanco});
 
-  factory conta.fromJson(Map<String, dynamic> json) {
-    return conta(
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'balanco': balanco,
+    };
+  }
+
+  factory Conta.fromJson(Map<String, dynamic> json) {
+    return Conta(
       id: json['id'],
       nome: json['nome'],
       balanco: json['balanco'],
     );
-  }
-  Map<String, dynamic> toJson() {
-    return {
-      'nome': nome,
-      'balanco': balanco,
-    };
   }
 }

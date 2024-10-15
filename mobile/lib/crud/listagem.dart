@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/crud/cadastro.dart';
 import 'package:mobile/crud/contas.dart';
-import 'package:mobile/crud/user.dart';
+import 'package:mobile/crud/user.dart'; 
+import 'package:mobile/crud/cadastro.dart';
+
 
 class Listagem extends StatefulWidget {
   @override
@@ -9,8 +10,8 @@ class Listagem extends StatefulWidget {
 }
 
 class _ListagemState extends State<Listagem> {
-  final Contas apiService = ApiAccountService();
-  List<conta> contas = []; 
+  final ApiAccountService apiService = ApiAccountService();
+  List<Conta> contas = [];
 
   @override
   void initState() {
@@ -23,12 +24,12 @@ class _ListagemState extends State<Listagem> {
     setState(() {});
   }
 
-  Future<void> _adicionarContas(conta conta) async {
+  Future<void> _adicionarContas(Conta conta) async {
     await apiService.createContas(conta);
     _carregaContas();
   }
 
-  Future<void> _atualizarContas(conta conta) async {
+  Future<void> _atualizarContas(Conta conta) async {
     await apiService.updateContas(conta);
     _carregaContas();
   }
@@ -38,13 +39,48 @@ class _ListagemState extends State<Listagem> {
     _carregaContas();
   }
 
+  void _editarConta(Conta conta) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Editar Conta"),
+          content: Cadastro(
+            onSave: (novaConta) {
+  _atualizarContas(Conta(
+    id: conta.id,
+    nome: novaConta.nome,
+    balanco: novaConta.balanco,
+  ));
+  Navigator.of(context).pop();
+}
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Contas')),
+      appBar: AppBar(
+        title: Text('Contas'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Cadastro(onSave: _adicionarContas),
+                ),
+              );
+            },
+          )
+        ],
+      ),
       body: Column(
         children: [
-          Cadastro(onSave: _adicionarContas),
           Expanded(
             child: ListView.builder(
               itemCount: contas.length,
@@ -58,20 +94,18 @@ class _ListagemState extends State<Listagem> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.edit),
-                        onPressed: () {
-                          _atualizarContas(conta);
-                        },
+                        onPressed: () => _editarConta(conta), 
                       ),
                       IconButton(
                         icon: Icon(Icons.delete),
-                        onPressed: () => _deletarContas(conta.id!),
-                      ),
+                        onPressed: () => _deletarContas(conta.id!), 
+                      )
                     ],
                   ),
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );

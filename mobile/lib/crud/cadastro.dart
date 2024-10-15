@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/crud/user.dart';
 
 class Cadastro extends StatefulWidget {
-  final Function(conta) onSave;
+  final Function(Conta) onSave;
 
   Cadastro({required this.onSave});
 
@@ -19,7 +19,7 @@ class _CadastroState extends State<Cadastro> {
     final balanco = double.tryParse(_balancoController.text) ?? 0.0;
 
     if (nome.isNotEmpty && balanco > 0) {
-      widget.onSave(conta(nome: nome, balanco: balanco)); 
+      widget.onSave(Conta(nome: nome, balanco: balanco)); 
       _nomeController.clear();
       _balancoController.clear();
     }
