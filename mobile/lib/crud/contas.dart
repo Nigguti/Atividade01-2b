@@ -10,23 +10,22 @@ abstract class Contas {
 }
 
 class ApiAccountService extends Contas {
-  final String baseUrl = 'http://localhost:3000/accounts';
 
   @override
   Future<List<conta>> getContas() async {
-    final response = await http.get(Uri.parse(baseUrl));
+    final response = await http.get(Uri.parse("http://localhost:3000/usuario"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((account) => conta.fromJson(account)).toList();
     } else {
-      throw Exception('Failed to load accounts');
+      throw Exception('Falha ao trazer as contas');
     }
   }
 
   @override
   Future<conta> createContas(conta account) async {
     final response = await http.post(
-      Uri.parse(baseUrl),
+      Uri.parse("http://localhost:3000/usuario"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -35,14 +34,14 @@ class ApiAccountService extends Contas {
     if (response.statusCode == 201) {
       return conta.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to create account');
+      throw Exception('Falha em criar a conta');
     }
   }
 
   @override
   Future<conta> updateContas(conta account) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/${account.id}'),
+      Uri.parse("http://localhost:3000/usuario/${account.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -51,15 +50,15 @@ class ApiAccountService extends Contas {
     if (response.statusCode == 200) {
       return conta.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to update account');
+      throw Exception('Falha em atualizar a conta');
     }
   }
 
   @override
   Future<void> deleteContas(int id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id'));
+    final response = await http.delete(Uri.parse("http://localhost:3000/usuario/$id"));
     if (response.statusCode != 200) {
-      throw Exception('Failed to delete account');
+      throw Exception('Falha em deletar a conta');
     }
   }
 }
