@@ -67,16 +67,24 @@ class _ListagemState extends State<Listagem> {
         title: Text('Contas'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Cadastro(onSave: _adicionarContas),
-                ),
-              );
-            },
-          )
+  icon: Icon(Icons.add),
+  onPressed: () async {
+    final novaConta = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Cadastro(
+          onSave: (conta) {
+            Navigator.pop(context, conta); // Retorna a conta criada
+          },
+        ),
+      ),
+    );
+
+    if (novaConta != null) {
+      await _adicionarContas(novaConta); // Adiciona e recarrega a lista
+    }
+  },
+)
         ],
       ),
       body: Column(

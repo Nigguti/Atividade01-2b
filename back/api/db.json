@@ -1,5 +1,19 @@
 {
-    "usuario": [
-        {"id": 1, "nome": "julio", "saldo": 100.00}
-    ]
+  "usuario": [
+    {
+      "id": 1,
+      "nome": "julio",
+      "saldo": 100
+    },
+    {
+      "id": "661a",
+      "nome": "Lucas",
+      "balanco": 100
+    },
+    {
+      "id": "ef23",
+      "nome": "Mario",
+      "balanco": 200
+    }
+  ]
 }
